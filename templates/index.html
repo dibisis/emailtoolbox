@@ -1,0 +1,118 @@
+<html>
+<head>
+    <title> Email toolbox </title>
+    <meta name="description" content="TM toolbox web for internal user">
+    <meta name="author" content="dibisis">
+    <meta http-equiv="cache-control" content="max-age=0"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+
+    <meta name="msapplication-TileColor" content="#44c0f0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="TM tools">
+    <meta name="theme-color" content="#44c0f0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link href="static/styles/style.css" rel="stylesheet">
+
+    <script src="static/javascript/main.js"></script>
+
+
+</head>
+<body>
+{% if authresult.has_credentials %}
+    <h4>
+        <a href="/logout" data-toggle="tooltip" title="클릭해서 로그아웃" data-placement="right">
+            <div class="label label-info">{{ authresult.email }} 로 로그인됨</div>
+        </a>
+    </h4>
+{% else %}
+
+    <a href="/login" aria-label="Login" data-toggle="tooltip" title="고급검색을 위해서는 로그인 필요">
+        <h5>Login</h5>
+    </a>
+{% endif %}
+
+
+
+<div class="container">
+    <div class="row" id="top-row">
+        <div class="col-md-12">
+            <H1 class="logo"><Span class="logo-style1">Email</Span>Toolbox</H1>
+        </div>
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-6">
+
+            <span class="form-label">조회대상:&nbsp;</span>
+            <input type="text" name="domain" id="domain" class="form-control">
+            <select id="file" class="form-control">
+                {% if authresult.isAuthUser %}
+                    <option value="master">올인원분석(내부용)</option>
+                {% endif %}
+                <option value="verify">이메일 검증(기본)</option>
+                {% if authresult.isAuthUser %}
+                    <option value="verifyall">이메일 검증(전체)</option>
+                {% endif %}
+
+                {#                <option value="tls">TLS체크(기본)</option>#}
+                {#                {% if authresult.isAuthUser %}#}
+                {#                    <option value="tlsall">TLS체크(전체)</option>#}
+                {#                {% endif %}#}
+
+                <option value="white">KISA 화이트도메인</option>
+
+                {% if authresult.isAuthUser %}
+                    <option value="decode6">TM6URL 복호화</option>
+                {% endif %}
+                {#                {% if authresult.isAuthUser %}#}
+                <option value="decode5">TM5URL 복호화</option>
+                {#                {% endif %}#}
+
+                {% if authresult.isAuthUser %}
+                    <option value="mxhistory">MX레코드 히스토리</option>
+                {% endif %}
+
+            </select>
+            <input type="button" id="submit" value="조회" class="form-control btn"/>
+        </div>
+        <div class="col-md-6"></div>
+        <div>
+
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <span id="txtHint" style="color: red;"></span>
+            <span id="loading"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div id="responseArea">
+            <div class="responseTable">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
